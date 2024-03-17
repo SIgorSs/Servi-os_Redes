@@ -10,5 +10,8 @@ COPY firewall.sh /root/firewall.sh
 # Definindo o script de configuração do firewall como executável
 RUN chmod +x /root/firewall.sh
 
+# Definindo o usuário como root
+USER root
+
 # Comando para executar o script de configuração do firewall
 CMD ["/root/firewall.sh"]
