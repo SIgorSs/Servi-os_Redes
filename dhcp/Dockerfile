@@ -1,14 +1,18 @@
-# Usando a imagem base Ubuntu
+# Use a imagem base do Ubuntu
 FROM ubuntu:latest
 
-# Atualizando o repositório e instalando o servidor DHCP
+# Atualize os repositórios de pacotes e instale o servidor DHCP
 RUN apt-get update && apt-get install -y isc-dhcp-server
 
-# Copiando o arquivo de configuração do DHCP para dentro do container
+# Crie o diretório para o banco de dados de arrendamento
+RUN mkdir -p /var/lib/dhcp/
+
+# Copie o arquivo de configuração do DHCP para dentro do contêiner
 COPY dhcpd.conf /etc/dhcp/dhcpd.conf
 
-# Expondo a porta usada pelo servidor DHCP
+# Exponha a porta usada pelo servidor DHCP
 EXPOSE 67/udp
 
+RUN mkdir -p /var/lib/dhcp/
 # Comando para iniciar o servidor DHCP
-CMD ["dhcpd", "-f", "-d", "--no-pid"]
+CMD ["dhcpd", "-f", "-d", "--no-pid", "-cf", "/etc/dhcp/dhcpd.conf"]
